@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NeighborhoodRestaurant.Data.DTOs
 {
-    class Statistics
+    public class Statistics
     {
         public DayOfWeek DayOfWeek { get; set; }
         public List<MealStatistic> Meals { get; set; }

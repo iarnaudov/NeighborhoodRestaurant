@@ -153,3 +153,8 @@ body {
     color: white;
     text-decoration: none;
 }
+
+.dayContainer {
+    margin: 20px;
+    box-shadow: 1px 1px 6px 0px #6d6d6d;
+}

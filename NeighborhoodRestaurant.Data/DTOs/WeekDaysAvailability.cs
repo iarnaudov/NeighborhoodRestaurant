@@ -8,7 +8,7 @@ namespace NeighborhoodRestaurant.Data.DTOs
 {
     public class WeekDaysAvailability
     {
-        public DayOfTheWeek WeekDay { get; set; }
+        public DayOfWeek WeekDay { get; set; }
         public int WeekDayEnumValue { get; set; }
         public string DateString { get; set; }
         public bool AlreadyOrdered { get; set; }

@@ -7,7 +7,8 @@ namespace NeighborhoodRestaurant.Data.DTOs
     public class MealStatistic
     {
         public string MealName { get; set; }
+        public string PictureLink { get; set; }
         public int Count { get; set; }
-        public List<int> UserIds { get; set; }
+        public List<string> UserIds { get; set; }
     }
 }

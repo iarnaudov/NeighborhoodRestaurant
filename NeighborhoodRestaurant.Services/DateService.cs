@@ -26,12 +26,16 @@ namespace NeighborhoodRestaurant.Services
             {
                 weekDaysAvailability.Add(new WeekDaysAvailability()
                 {
-                    WeekDay = (DayOfTheWeek)i,
+                    WeekDay = (DayOfWeek)i,
                     WeekDayEnumValue = i,
                     DateString = weekDays[i],
-                    AlreadyOrdered = this.orderService.UserHasOrderForTheDay(userId, (DayOfWeek)i)
+                    AlreadyOrdered = this.orderService.UserHasOrderForTheDay(userId, (DayOfWeek)i )
                 });
             };
+
+            weekDaysAvailability.Add(weekDaysAvailability[0]);
+            weekDaysAvailability.Remove(weekDaysAvailability[0]);
+
             return weekDaysAvailability;
         }
 
@@ -45,7 +49,7 @@ namespace NeighborhoodRestaurant.Services
             string friday = GetNextWeekday(DateTime.Today.AddDays(4), DayOfWeek.Friday);
             string saturday = GetNextWeekday(DateTime.Today.AddDays(5), DayOfWeek.Saturday);
             string sunday = GetNextWeekday(DateTime.Today.AddDays(6), DayOfWeek.Sunday);
-            string[] weekDates = new string[] { monday, tuesday, wednesday, thursday, friday, saturday, sunday };
+            string[] weekDates = new string[] { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
             return weekDates;
         }
 

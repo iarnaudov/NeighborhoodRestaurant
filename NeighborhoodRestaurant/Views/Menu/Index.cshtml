@@ -4,81 +4,82 @@
     ViewData["Title"] = "Select your menu";
 }
 
-<div class="text-center">
-    <h3>Изберете си меню за седмицата</h3>
-    <div class="weekdaySelector">
-        @{
-            foreach (WeekDaysAvailability weekDay in Model.WeekDays)
-            {
-                if (weekDay.AlreadyOrdered)
+    <div class="text-center">
+        <h3>Изберете си меню за седмицата</h3>
+        <h4>Моля изберете за кой ден искате да поръчате</h4>
+        <div class="weekdaySelector">
+            @{
+                foreach (WeekDaysAvailability weekDay in Model.WeekDays)
                 {
-                    <div class="daySelector alreadyOrdered">
-                        <div>
-                            <input type="text" value="@weekDay.WeekDayEnumValue" style="display:none" />
-                            @weekDay.WeekDay.ToString()
+                    if (weekDay.AlreadyOrdered)
+                    {
+                        <div class="daySelector alreadyOrdered">
+                            <div>
+                                <input type="text" value="@weekDay.WeekDayEnumValue" style="display:none" />
+                                @weekDay.WeekDay.ToString()
+                            </div>
+                            <span class="date">@weekDay.DateString</span>
                         </div>
-                        <span class="date">@weekDay.DateString</span>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="daySelector">
+                            <div>
+                                <input type="text" value="@weekDay.WeekDayEnumValue" style="display:none" />
+                                @weekDay.WeekDay.ToString()
+                            </div>
+                            <span class="date">@weekDay.DateString</span>
+                        </div>
+                    }
                 }
-                else
+            }
+        </div>
+        <div class="menuSelector">
+            <div class="mealTypeHeading">Предястия</div>
+            @{
+                foreach (Meal appetizer in Model.Appetizers)
                 {
-                    <div class="daySelector">
-                        <div>
-                            <input type="text" value="@weekDay.WeekDayEnumValue" style="display:none" />
-                            @weekDay.WeekDay.ToString()
-                        </div>
-                        <span class="date">@weekDay.DateString</span>
+                    <div class="mealContainer">
+                        <label>
+                            <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
+                            <input type="radio" name="appetizer" value="@appetizer.Id">@appetizer.Name
+                        </label>
                     </div>
+
                 }
             }
-        }
-    </div>
-    <div class="menuSelector">
-        <div class="mealTypeHeading">Предястия</div>
-        @{
-            foreach (Meal appetizer in Model.Appetizers)
-            {
-                <div class="mealContainer">
-                    <label>
-                        <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
-                        <input type="radio" name="appetizer" value="@appetizer.Id">@appetizer.Name
-                    </label>
-                </div>
 
+            <div class="mealTypeHeading">Oсновни ястия</div>
+            @{
+                foreach (Meal appetizer in Model.MainCourses)
+                {
+                    <div class="mealContainer">
+                        <label>
+                            <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
+                            <input type="radio" name="mainCourse" value="@appetizer.Id">@appetizer.Name
+                        </label>
+                    </div>
+
+                }
             }
-        }
+            <div class="mealTypeHeading">Десерти</div>
+            @{
+                foreach (Meal appetizer in Model.Desserts)
+                {
+                    <div class="mealContainer">
+                        <label>
+                            <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
+                            <input type="radio" name="desert" value="@appetizer.Id">@appetizer.Name
+                        </label>
+                    </div>
 
-        <div class="mealTypeHeading">Oсновни ястия</div>
-        @{
-            foreach (Meal appetizer in Model.MainCourses)
-            {
-                <div class="mealContainer">
-                    <label>
-                        <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
-                        <input type="radio" name="mainCourse" value="@appetizer.Id">@appetizer.Name
-                    </label>
-                </div>
-
+                }
             }
-        }
-        <div class="mealTypeHeading">Десерти</div>
-        @{
-            foreach (Meal appetizer in Model.Desserts)
-            {
-                <div class="mealContainer">
-                    <label>
-                        <div class="pictureContainer"><img src="@appetizer.PictureUrl" class="mealImage" /></div>
-                        <input type="radio" name="desert" value="@appetizer.Id">@appetizer.Name
-                    </label>
-                </div>
-
-            }
-        }
-    <div class="buttonsContainer">
-        <input type="button" id="order" value="Поръчай" />
+            <div class="buttonsContainer">
+                <input type="button" id="order" value="Поръчай" />
+            </div>
+        </div>
     </div>
-    </div>
-</div>
 
 @section Scripts
 {
@@ -101,10 +102,10 @@
                 contentType: "application/json",
                 data: JSON.stringify({ WeekDay, Meals })
             }).done(() => {
-                alert("Successfully added");
+                alert("Успешно направена поръчка");
                 $(".daySelector.selected:eq(0)").addClass("alreadyOrdered");
                 }).fail(() => {
-                    alert("Error");
+                    alert("Грешка. Не сте избрали правилно деня, или 3те ястия");
                 });
             });
 

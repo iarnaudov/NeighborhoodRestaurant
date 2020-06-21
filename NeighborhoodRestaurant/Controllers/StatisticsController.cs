@@ -21,7 +21,6 @@ namespace NeighborhoodRestaurant.Web.Controllers
 
         public IActionResult Index()
         {
-            this.mealService.GetVIPUsersStatistics();
             return View();
         }
 
@@ -29,6 +28,12 @@ namespace NeighborhoodRestaurant.Web.Controllers
         {
             List<Data.DTOs.MostWantedMeal> meals = this.mealService.GetMostOrderedMeals();
             return View(meals);
+        }
+
+        public IActionResult FullStatistics()
+        {
+            List<Data.DTOs.Statistics> statistics = this.mealService.GetVIPUsersStatistics();
+            return View(statistics);
         }
     }
 }

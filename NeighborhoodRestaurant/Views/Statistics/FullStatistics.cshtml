@@ -1,0 +1,30 @@
+﻿@model List<Statistics>
+
+@{
+    ViewData["Title"] = "MostWanted";
+}
+
+<h2>Най-вървежни ястия</h2>
+
+@{
+    foreach (var day in Model)
+    {
+    <div class="dayContainer">
+        <div>@day.DayOfWeek</div>
+
+        @foreach (var meal in day.Meals)
+        {
+            <div class="mealContainer">
+                <label>
+                    <div class="pictureContainer">
+                        <img src="@meal.PictureLink" class="mealImage" />
+                    </div>
+                    <div>@meal.MealName</div>
+                    <div>Брой поръчвания @meal.Count</div>
+                    <div>Закупиха го: @string.Join(", ", meal.UserIds)</div>
+                </label>
+            </div>
+        }
+    </div>
+    }
+}        

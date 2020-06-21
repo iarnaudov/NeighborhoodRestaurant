@@ -1,0 +1,21 @@
+﻿@model List<MostWantedMeal>
+
+@{
+    ViewData["Title"] = "MostWanted";
+}
+
+<h2>Най-вървежни ястия</h2>
+
+@{
+    foreach (var meal in Model)
+    {
+
+        <div class="mealContainer">
+            <label>
+                <div class="pictureContainer"><img src="@meal.PictureLink" class="mealImage" /></div>
+                @meal.MealName - @meal.OrderCount Броя
+            </label>
+        </div>
+        <div>==========================</div>
+    }
+}        

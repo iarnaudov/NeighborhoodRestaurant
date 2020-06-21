@@ -1,0 +1,155 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+/* Website Styles
+-------------------------------------------------- */
+.menuSelector {
+    //TODO: Hide
+/*    display: block;*/
+}
+.daySelector {
+    padding: 30px 30px;
+    border-radius: 4px;
+    margin: 8px;
+    display: inline-block;
+    background: linear-gradient(to right, #1e5799 0%,#22bcc1 100%);
+    color: white;
+    cursor: pointer;
+}
+
+..daySelector:hover {
+        background: linear-gradient(to right, #0f284c 0%,#4a7389 100%)
+}
+
+.daySelector.selected {
+    background: linear-gradient(to right, #0f284c 0%,#4a7389 100%)
+}
+
+.daySelector.alreadyOrdered {
+    background: linear-gradient(90deg, rgba(53,106,27,1) 0%, rgba(92,182,77,1) 96%) !important;
+}
+
+.mealContainer {
+    width: 200px;
+    margin: 10px;
+    box-shadow: 1px 1px 6px 0px #6d6d6d;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.mealContainer .mealImage {
+    width: 200px;
+    display: block;
+    cursor: pointer;
+}
+
+.mealContainer label {
+    cursor: pointer;
+}
+.mealContainer label input {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.mealTypeHeading {
+    font-size: 28px;
+    color: #47474c;
+    margin-top: 30px;
+}
+
+.pictureContainer {
+    height: 100px;
+    overflow: hidden;
+}
+
+.buttonsContainer {
+    margin-top: 40px;
+}
+
+.statistics {
+    margin: 200px auto;
+}
+
+.statisticsTile {
+    background-color: #315a73;
+    color: white;
+    display: inline-block;
+    margin: 20px;
+    text-align:center;
+    padding: 100px;
+    font-size: 25px;
+    text-decoration: none;
+}
+
+.statisticsTile:hover {
+    color: white;
+    text-decoration: none;
+}

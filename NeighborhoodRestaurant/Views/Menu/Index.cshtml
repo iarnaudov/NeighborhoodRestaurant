@@ -1,9 +1,17 @@
-﻿@model SelectMenuViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Select your menu";
 }
 
+@if (!SignInManager.IsSignedIn(User))
+{
+    <h1>Please sign in before ordering</h1>
+}
+else
+{
     <div class="text-center">
         <h3>Изберете си меню за седмицата</h3>
         <h4>Моля изберете за кой ден искате да поръчате</h4>
@@ -80,6 +88,7 @@
             </div>
         </div>
     </div>
+}
 
 @section Scripts
 {
@@ -104,10 +113,10 @@
             }).done(() => {
                 alert("Успешно направена поръчка");
                 $(".daySelector.selected:eq(0)").addClass("alreadyOrdered");
-                }).fail(() => {
-                    alert("Грешка. Не сте избрали правилно деня, или 3те ястия");
-                });
+            }).fail(() => {
+                alert("Грешка. Не сте избрали правилно деня, или 3те ястия");
             });
+        });
 
     </script>
 }

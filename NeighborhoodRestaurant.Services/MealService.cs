@@ -48,36 +48,6 @@ namespace NeighborhoodRestaurant.Services
         public List<Statistics> GetVIPUsersStatistics()
         {
             List<Statistics> statistics = new List<Statistics>();
-            //List<Order> orders = this.databaseCtx.Orders.ToList();
-            //var users = this.databaseCtx.Users.ToList();
-            //List<Meal> meals = this.databaseCtx.Meals.ToList();
-            //List<Data.DataModels.JoinTable> allJoinedOrders = this.databaseCtx.JoinTable.FromSqlRaw(@"SELECT * FROM Orders LEFT JOIN MealOrders on Orders.Id = MealOrders.OrderId").ToList();
-            //List<IGrouping<int, (int MealId, string UserId)>> groupedByWeekDay = allJoinedOrders.GroupBy(o => o.DayOfWeek, o => (o.MealId, o.UserId)).ToList();
-
-            //foreach (IGrouping<int, (int MealId, string UserId)> weekdayMeals in groupedByWeekDay)
-            //{
-            //    Statistics dayStats = new Statistics()
-            //    {
-            //        DayOfWeek = (DayOfWeek)weekdayMeals.Key,
-            //        Meals = new List<MealStatistic>(),
-            //    };
-
-            //    List<IGrouping<int, (int MealId, string UserId)>> groupedDailyMeals = weekdayMeals.GroupBy(m => m.MealId).ToList();
-
-            //    foreach (IGrouping<int, (int MealId, string UserId)> meal in groupedDailyMeals)
-            //    {
-            //        dayStats.Meals.Add(new MealStatistic()
-            //        {
-            //            MealName = meals.Where(m => m.Id == meal.Key).FirstOrDefault().Name,
-            //            PictureLink = meals.Where(m => m.Id == meal.Key).FirstOrDefault().PictureUrl,
-            //            Count = meal.Select(m => m.MealId).Count(),
-            //            UserIds = meal.Select(m => users.Where(u => u.Id == m.UserId).First().UserName).ToList()
-            //        }); 
-            //    }
-            //    dayStats.Meals = dayStats.Meals.OrderByDescending(m => m.Count).ToList();
-            //    statistics.Add(dayStats);
-            //}
-
             List<Data.DataModels.ProperJoin> allJoinedOrders = this.databaseCtx.ProperJoinTable.FromSqlRaw(
                 @"SELECT DayOfWeek, OrderId, Name as MealName, [PictureUrl], UserName FROM MealOrders mo
                 JOIN Meals m ON mo.MealId=m.Id
@@ -96,7 +66,7 @@ namespace NeighborhoodRestaurant.Services
                     Meals = new List<MealStatistic>(),
                 };
 
-                foreach (var meal in groupedByDay[i])
+                foreach (Data.DataModels.ProperJoin meal in groupedByDay[i])
                 {
                     dayStats.Meals.Add(new MealStatistic()
                     {
@@ -106,12 +76,8 @@ namespace NeighborhoodRestaurant.Services
                         Count = groupedByDay[i].Where(m => m.MealName == meal.MealName).Count(),
                     });
                 }
+                statistics.Add(dayStats);
             }
-
-
-
-            ;
-
             return statistics;
         }
 

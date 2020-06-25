@@ -48,35 +48,70 @@ namespace NeighborhoodRestaurant.Services
         public List<Statistics> GetVIPUsersStatistics()
         {
             List<Statistics> statistics = new List<Statistics>();
-            List<Order> orders = this.databaseCtx.Orders.ToList();
-            var users = this.databaseCtx.Users.ToList();
-            List<Meal> meals = this.databaseCtx.Meals.ToList();
-            List<Data.DataModels.JoinTable> allJoinedOrders = this.databaseCtx.JoinTable.FromSqlRaw(@"SELECT * FROM Orders LEFT JOIN MealOrders on Orders.Id = MealOrders.OrderId").ToList();
-            List<IGrouping<int, (int MealId, string UserId)>> groupedByWeekDay = allJoinedOrders.GroupBy(o => o.DayOfWeek, o => (o.MealId, o.UserId)).ToList();
+            //List<Order> orders = this.databaseCtx.Orders.ToList();
+            //var users = this.databaseCtx.Users.ToList();
+            //List<Meal> meals = this.databaseCtx.Meals.ToList();
+            //List<Data.DataModels.JoinTable> allJoinedOrders = this.databaseCtx.JoinTable.FromSqlRaw(@"SELECT * FROM Orders LEFT JOIN MealOrders on Orders.Id = MealOrders.OrderId").ToList();
+            //List<IGrouping<int, (int MealId, string UserId)>> groupedByWeekDay = allJoinedOrders.GroupBy(o => o.DayOfWeek, o => (o.MealId, o.UserId)).ToList();
 
-            foreach (IGrouping<int, (int MealId, string UserId)> weekdayMeals in groupedByWeekDay)
+            //foreach (IGrouping<int, (int MealId, string UserId)> weekdayMeals in groupedByWeekDay)
+            //{
+            //    Statistics dayStats = new Statistics()
+            //    {
+            //        DayOfWeek = (DayOfWeek)weekdayMeals.Key,
+            //        Meals = new List<MealStatistic>(),
+            //    };
+
+            //    List<IGrouping<int, (int MealId, string UserId)>> groupedDailyMeals = weekdayMeals.GroupBy(m => m.MealId).ToList();
+
+            //    foreach (IGrouping<int, (int MealId, string UserId)> meal in groupedDailyMeals)
+            //    {
+            //        dayStats.Meals.Add(new MealStatistic()
+            //        {
+            //            MealName = meals.Where(m => m.Id == meal.Key).FirstOrDefault().Name,
+            //            PictureLink = meals.Where(m => m.Id == meal.Key).FirstOrDefault().PictureUrl,
+            //            Count = meal.Select(m => m.MealId).Count(),
+            //            UserIds = meal.Select(m => users.Where(u => u.Id == m.UserId).First().UserName).ToList()
+            //        }); 
+            //    }
+            //    dayStats.Meals = dayStats.Meals.OrderByDescending(m => m.Count).ToList();
+            //    statistics.Add(dayStats);
+            //}
+
+            List<Data.DataModels.ProperJoin> allJoinedOrders = this.databaseCtx.ProperJoinTable.FromSqlRaw(
+                @"SELECT DayOfWeek, OrderId, Name as MealName, [PictureUrl], UserName FROM MealOrders mo
+                JOIN Meals m ON mo.MealId=m.Id
+                JOIN Orders o ON mo.OrderId=o.Id
+                JOIN AspNetUsers u ON o.UserId=u.Id
+                ORDER BY DayOfWeek")
+                .ToList();
+            List<IGrouping<int, Data.DataModels.ProperJoin>> groupedByDay = allJoinedOrders.GroupBy(o => o.DayOfWeek).ToList();
+
+            for (int i = 0; i < groupedByDay.Count; i++)
             {
+                var day = groupedByDay[i].Key;
                 Statistics dayStats = new Statistics()
                 {
-                    DayOfWeek = (DayOfWeek)weekdayMeals.Key,
+                    DayOfWeek = (DayOfWeek)day,
                     Meals = new List<MealStatistic>(),
                 };
 
-                List<IGrouping<int, (int MealId, string UserId)>> groupedDailyMeals = weekdayMeals.GroupBy(m => m.MealId).ToList();
-
-                foreach (IGrouping<int, (int MealId, string UserId)> meal in groupedDailyMeals)
+                foreach (var meal in groupedByDay[i])
                 {
                     dayStats.Meals.Add(new MealStatistic()
                     {
-                        MealName = meals.Where(m => m.Id == meal.Key).FirstOrDefault().Name,
-                        PictureLink = meals.Where(m => m.Id == meal.Key).FirstOrDefault().PictureUrl,
-                        Count = meal.Select(m => m.MealId).Count(),
-                        UserIds = meal.Select(m => users.Where(u => u.Id == m.UserId).First().UserName).ToList()
-                    }); 
+                        MealName = meal.MealName,
+                        PictureLink = meal.PictureUrl,
+                        UserIds = groupedByDay[i].Where(m => m.MealName == meal.MealName).Select(u => u.Username).ToList(),
+                        Count = groupedByDay[i].Where(m => m.MealName == meal.MealName).Count(),
+                    });
                 }
-                dayStats.Meals = dayStats.Meals.OrderByDescending(m => m.Count).ToList();
-                statistics.Add(dayStats);
             }
+
+
+
+            ;
+
             return statistics;
         }
 

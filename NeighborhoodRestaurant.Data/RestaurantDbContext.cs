@@ -16,6 +16,7 @@ namespace NeighborhoodRestaurant.Data
         public DbSet<Meal> Meals { get; set; }
         public DbSet<MealOrder> MealOrders { get; set; }
         public DbSet<JoinTable> JoinTable { get; set; }
+        public DbSet<ProperJoin> ProperJoinTable { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
  => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=RestaurantDB;Trusted_Connection=True;MultipleActiveResultSets=true");
@@ -35,6 +36,7 @@ namespace NeighborhoodRestaurant.Data
                 .WithMany(m => m.MealOrders)
                 .HasForeignKey(mo => mo.MealId);
             modelBuilder.Entity<JoinTable>().HasNoKey();
+            modelBuilder.Entity<ProperJoin>().HasNoKey();
         }
     }
 }
